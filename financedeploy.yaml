@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finance-deployment
+  labels:
+    app: app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: c002
+          image: maulikd2397/finance
+          ports:
+            - containerPort: 8081
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finance-svc-nodeport
+  labels:
+    app: app
+spec:
+  selector:
+    app: app
+  type: NodePort
+  ports:
+    - nodePort: 31434
+      port: 8081
+      targetPort: 8081
+
+

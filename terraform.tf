@@ -135,5 +135,6 @@ resource "aws_eip" "demo_eip" {
   vpc                       = true
   network_interface         = aws_network_interface.demo_ni.id
   associate_with_private_ip = "10.0.1.10"
+
   depends_on = [aws_instance.test_server]
 }

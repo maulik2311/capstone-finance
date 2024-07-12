@@ -109,13 +109,6 @@ resource "aws_network_interface" "demo_ni" {
   security_groups   = [aws_security_group.demo_sg.id]
 }
 
-# Attaching an elastic IP to the network interface
-resource "aws_eip" "demo_eip" {
-  vpc                       = true
-  network_interface         = aws_network_interface.demo_ni.id
-  associate_with_private_ip = "10.0.1.10"
-}
-
 # Creating an Ubuntu EC2 instance
 resource "aws_instance" "test_server" {
   ami               = "ami-0a0e5d9c7acc336f1"
@@ -135,4 +128,12 @@ resource "aws_instance" "test_server" {
   tags = {
     Name = "Test-Server"
   }
+}
+
+# Attaching an elastic IP to the network interface
+resource "aws_eip" "demo_eip" {
+  vpc                       = true
+  network_interface         = aws_network_interface.demo_ni.id
+  associate_with_private_ip = "10.0.1.10"
+  depends_on = [aws_instance.test_server]
 }

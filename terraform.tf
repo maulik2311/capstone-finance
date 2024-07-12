@@ -126,6 +126,12 @@ resource "aws_instance" "test_server" {
     device_index         = 0
     network_interface_id = aws_network_interface.demo_ni.id
   }
+  
+  user_data  = <<-EOF
+  #!/bin/bash
+  sudo apt-get update -y
+  EOF
+
   tags = {
     Name = "Test-Server"
   }
